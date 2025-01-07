@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package completions;
+
+service CompletionsService {
+    rpc ChatCompletion (ChatCompletionRequest) returns (ChatCompletionResponse);
+}
+
+message ChatCompletionRequest {
+    string prompt = 1;
+    repeated string messages = 2;
+}
+
+message ChatCompletionResponse {
+    string reply = 1;
+}

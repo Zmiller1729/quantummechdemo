@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package realtime_api;
+
+// Service definition
+service RealtimeAPI {
+  // Stream audio data to the server
+  rpc StreamAudio (stream AudioRequest) returns (stream APIResponse);
+  
+  // Send a text prompt to the server
+  rpc SendTextPrompt (TextRequest) returns (stream APIResponse);
+}
+
+// Audio request message containing raw audio data
+message AudioRequest {
+  bytes audio_data = 1;
+}
+
+// Text request message containing a prompt
+message TextRequest {
+  string prompt = 1;
+}
+
+// Response message that can contain different types of data
+message APIResponse {
+  oneof response {
+    TextResponse text = 1;
+    AudioResponse audio = 2;
+    FunctionCallResponse function_call = 3;
+    ErrorResponse error = 4;
+  }
+}
+
+// Text response containing assistant's reply
+message TextResponse {
+  string text = 1;
+}
+
+// Audio response containing audio data
+message AudioResponse {
+  bytes audio_data = 1;
+}
+
+// Function call response
+message FunctionCallResponse {
+  string function_name = 1;
+  string arguments = 2;
+  string call_id = 3;
+}
+
+// Error response
+message ErrorResponse {
+  string error_message = 1;
+}
