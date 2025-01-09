@@ -13,6 +13,7 @@ from src.modules.assistant import AssistantAPI
 from src.modules.logging import log_tool_call, log_error, log_info, setup_logging
 from src.modules.tools.base.tools import function_map, tools
 from src.modules.tools.pulumi.pulumi import tools as pulumi_tools, function_map as pulumi_function_map
+from src.modules.dnd.models import Character, Spell, Monster, Item, Weapon, Armor, Skill, Campaign, Act, Chapter, Area, Location, NPC
 
 # Load environment variables
 load_dotenv()
@@ -130,7 +131,7 @@ class CompletionsAPI(AssistantAPI):
                 # Accumulate the function name if it's present in the chunk
                     if choice.delta.function_call.name:
                         function_name_buffer = choice.delta.function_call.name
-                    
+
                     # Accumulate arguments in chunks
                     if choice.delta.function_call.arguments:
                         arguments_buffer.append(choice.delta.function_call.arguments)

@@ -4,8 +4,8 @@ from typing import Dict, Optional
 class Item(BaseModel):
     name: str
     description: Optional[str] = None
-    quantity: int = 1
-    weight: float = 0.0
+    quantity: int
+    weight: float
 
 class Inventory(BaseModel):
     items: Dict[str, Item] = {}

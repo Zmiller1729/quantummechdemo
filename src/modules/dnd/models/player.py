@@ -13,7 +13,7 @@ class Player(BaseModel):
     race: str
     background: Optional[str] = None
     alignment: Optional[str] = None
-    experience_points: int = 0
+    experience_points: int
     inventory: Inventory = Inventory()
 
     @validator('class_type')
