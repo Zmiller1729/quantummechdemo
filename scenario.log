@@ -1,0 +1,63 @@
+Welcome to the Text Adventure Game!
+Guard: Halt! Who goes there? I'm charged with letting no mortal pass.
+You: <place 3 gold coins in the guard's hand> I simply need to see if my wife is here with her dancing instructor. I know she has been cheating on me with him. Do me this kindness and you shall have double this on my way out.
+Rolling a 1-100 dice... You rolled a 81
+Prompt being sent to OpenAI:
+
+    Here is the backstory: You are standing at the gate of a gladiatorial arena. The guard is tasked with not letting any mortal pass.
+
+    Here is the dialog history: [DialogLine(speaker='Guard', text="Halt! Who goes there? I'm charged with letting no mortal pass."), DialogLine(speaker='You', text="<place 3 gold coins in the guard's hand> I simply need to see if my wife is here with her dancing instructor. I know she has been cheating on me with him. Do me this kindness and you shall have double this on my way out.")]
+
+    Here are your character attributes on a scale from 0-10:
+
+    gullability: 6
+    aggression: 7
+    intelligence: 4
+    suspicion: 4
+    superstition: 7
+    perception: 3
+
+    Your attributes guide your character's responses to the user's dialog. These attributes will not change
+    nor will they be visible to the user.
+
+    The user rolled a 81 on a 1-100 dice roll.
+
+    You are the "guard" in this dialog history.
+
+    Here are the outcomes you can choose from:
+    friendly: The guard smiles and lets you pass.,
+    hostile: The guard draws his sword and attacks you.,
+    neutral: The guard looks at you suspiciously but does nothing.,
+    threaten: The guard lets you pass but sounds the alarm as soon as you do.,
+    fool: The guard believes you and lets you pass.,
+    intimidate: The guard is scared and lets you pass.,
+    persuade: The guard is convinced and lets you pass.,
+    seduce: The guard is charmed and lets you pass.
+
+    Each outcome has a weight associated with it. The weights all started at 0.
+    You can increase the weight of an outcome by selecting it.
+    The weight represents your inclination towards that outcome.
+    The weights are scaled from 0 to 0. Once an outcome reaches 10 or more, the conversation will end
+    and the outcome will be chosen.
+    You may not give more than one outcome a weight of 10 or more.
+    If no outcome has a weight of 10 or more, the conversation will continue until you choose an outcome.
+    Be more inclined to choose an outcome if the conversation goes back and forth too many times.
+    We're looking for a natural but short to medium length conversation.
+
+    Please read through the backstory and the dialog history and consider a response to give.
+    The response is what you will be saying to the user. Please consider the user's roll when evaluating
+    how effective they are at any attempts to fool, intimidate, or persuade, etc you.
+    
+Outcome values received from OpenAI:
+dialog='"Dancing instructor, you say? Cheating, you say? Well, that\'s quite the tale... Let\'s keep this between us, alright? You\'ll owe me one."' outcomes=Outcomes(friendly=Outcome(description='The guard smiles and lets you pass.', weight=0), hostile=Outcome(description='The guard draws his sword and attacks you.', weight=0), neutral=Outcome(description='The guard looks at you suspiciously but does nothing.', weight=0), threaten=Outcome(description='The guard lets you pass but sounds the alarm as soon as you do.', weight=0), fool=Outcome(description='The guard believes you and lets you pass.', weight=0), intimidate=Outcome(description='The guard is scared and lets you pass.', weight=0), persuade=Outcome(description='The guard is convinced and lets you pass.', weight=10), seduce=Outcome(description='The guard is charmed and lets you pass.', weight=0))
+Guard: "Dancing instructor, you say? Cheating, you say? Well, that's quite the tale... Let's keep this between us, alright? You'll owe me one."
+Outcome friendly: The guard smiles and lets you pass. with weight 0
+Outcome hostile: The guard draws his sword and attacks you. with weight 0
+Outcome neutral: The guard looks at you suspiciously but does nothing. with weight 0
+Outcome threaten: The guard lets you pass but sounds the alarm as soon as you do. with weight 0
+Outcome fool: The guard believes you and lets you pass. with weight 0
+Outcome intimidate: The guard is scared and lets you pass. with weight 0
+Outcome persuade: The guard is convinced and lets you pass. with weight 10
+Outcome seduce: The guard is charmed and lets you pass. with weight 0
+Selected outcomes: []
+Chosen outcome: The guard is convinced and lets you pass.

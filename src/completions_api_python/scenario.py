@@ -8,6 +8,7 @@ import os
 import argparse
 
 client = OpenAI()
+LOG_FILE = "scenario.log"
 
 class Outcome(BaseModel):
     description: str
@@ -38,13 +39,19 @@ class OutcomeResponse(BaseModel):
     dialog: str
     outcomes: Outcomes
 
+def log_event(event: str):
+    with open(LOG_FILE, 'a') as f:
+        f.write(event + '\n')
+
 def print_and_save_new_dialog_line(scenario: Scenario, speaker: str, text: str):
+    log_event(f"{speaker}: {text}")
     print(f"{speaker}: {text}")
     scenario.dialog_history.append(DialogLine(speaker=speaker, text=text))
 
 def roll_dice():
-    print("Rolling a 1-100 dice...")
     roll = random.randint(1, 100)
+    log_event(f"Rolling a 1-100 dice... You rolled a {roll}")
+    print("Rolling a 1-100 dice...")
     print("You rolled a ", roll)
     return roll
 
@@ -74,7 +81,7 @@ def process_dialog_with_ai(scenario: Scenario, roll: int, debug: bool):
     friendly: {scenario.outcomes.friendly.description},
     hostile: {scenario.outcomes.hostile.description},
     neutral: {scenario.outcomes.neutral.description},
-    threaten: {scenario.outcomes.threaten.description}
+    threaten: {scenario.outcomes.threaten.description},
 
     Each outcome has a weight associated with it. The weights all started at 0.
     You can increase the weight of an outcome by selecting it.
@@ -95,6 +102,8 @@ def process_dialog_with_ai(scenario: Scenario, roll: int, debug: bool):
         print("Prompt being sent to OpenAI:")
         print(prompt)
 
+    log_event(f"Prompt being sent to OpenAI:\n{prompt}")
+
     completion = client.beta.chat.completions.parse(
         model="gpt-4o-2024-08-06",
         messages=[
@@ -106,6 +115,7 @@ def process_dialog_with_ai(scenario: Scenario, roll: int, debug: bool):
 
     if completion.choices and completion.choices[0].message.parsed:
         outcome_response = completion.choices[0].message.parsed
+        log_event(f"Outcome values received from OpenAI:\n{outcome_response}")
         if debug:
             print("Outcome values received from OpenAI:")
             for outcome_name, outcome in outcome_response.outcomes.dict().items():
@@ -118,12 +128,16 @@ def get_user_response(scenario: Scenario):
     print_and_save_new_dialog_line(scenario, "You", response)
 
 def start_game(debug: bool):
+    # Clear the log file at the start of a new game
+    with open(LOG_FILE, 'w') as f:
+        f.write("")
+
     scenario = Scenario(
         backstory="You are standing at the gate of a gladiatorial arena. The guard is tasked with not letting any mortal pass.",
         gullability=6,
         aggression=7,
         intelligence=4,
-        suspicion=6,
+        suspicion=4,
         superstition=7,
         perception=3,
         dialog_history=[],
@@ -136,6 +150,7 @@ def start_game(debug: bool):
     )
 
     print("Welcome to the Text Adventure Game!")
+    log_event("Welcome to the Text Adventure Game!")
 
     print_and_save_new_dialog_line(scenario, "Guard", "Halt! Who goes there? I'm charged with letting no mortal pass.")
 
@@ -147,7 +162,10 @@ def start_game(debug: bool):
         if outcome_response:
             print_and_save_new_dialog_line(scenario, "Guard", outcome_response.dialog)
             scenario.outcomes = outcome_response.outcomes
-            selected_outcomes = []
+            for outcome_name, outcome in outcome_response.outcomes.dict().items():
+                log_event(f"Outcome {outcome_name}: {outcome['description']} with weight {outcome['weight']}")
+            selected_outcomes = list[str]()
+            log_event(f"Selected outcomes: {selected_outcomes}")
 
             if scenario.outcomes.friendly.weight >= 10:
                 selected_outcomes.append(scenario.outcomes.friendly.description)
@@ -159,11 +177,14 @@ def start_game(debug: bool):
                 selected_outcomes.append(scenario.outcomes.threaten.description)
 
             if selected_outcomes:
-                print(random.choice(selected_outcomes))
+                chosen_outcome = random.choice(selected_outcomes)
+                log_event(f"Chosen outcome: {chosen_outcome}")
+                print(chosen_outcome)
                 break
             get_user_response(scenario)
         else:
             print("No valid response from AI.")
+            log_event("No valid response from AI.")
             break
 
 if __name__ == "__main__":
