@@ -10,8 +10,8 @@ COPY --chown=${DEVBOX_USER}:${DEVBOX_USER} devbox.lock devbox.lock
 
 
 # Copying local flakes directories
-COPY ./devbox.d/pulumi_flake ./devbox.d/pulumi_flake
+# COPY ./devbox.d/pulumi_flake ./devbox.d/pulumi_flake
 
-RUN devbox run -- echo "Installed Packages."
+# RUN devbox run -- echo "Installed Packages."
 
-RUN devbox shellenv --init-hook >> ~/.profile
+# RUN devbox shellenv --init-hook >> ~/.profile
